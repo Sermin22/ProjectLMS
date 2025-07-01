@@ -1,3 +1,30 @@
-# from django.contrib import admin
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from users.models import Payments, CustomUser
 
-# Register your models here.
+
+# admin.site.register(CustomUser, UserAdmin)
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+
+    list_display = (
+        'id',
+        'username',
+        'email',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'is_active',
+        'is_staff',
+        'is_superuser',
+        'avatar',
+    )
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+
+
+@admin.register(Payments)
+class PaymentsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'date', 'amount', 'payment_method', 'paid_course', 'paid_lesson')
+    list_filter = ('payment_method', 'date')
+    search_fields = ('user__username',)
