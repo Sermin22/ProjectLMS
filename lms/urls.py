@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from lms.apps import LmsConfig
 from lms.views import (CourseViewSet, LessonListAPIView, LessonCreateAPIView, LessonUpdateAPIView,
-                       LessonDestroyAPIView, LessonRetrieveAPIView)
+                       LessonDestroyAPIView, LessonRetrieveAPIView, SubscriptionToggleView)
 
 
 app_name = LmsConfig.name
@@ -16,5 +16,6 @@ urlpatterns = [
     path("lessons/create/", LessonCreateAPIView.as_view(), name="lessons_create"),
     path("lessons/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lessons_update"),
     path("lessons/<int:pk>/delete/", LessonDestroyAPIView.as_view(), name="lessons_delete"),
+    path("subscription/", SubscriptionToggleView.as_view(), name="subscription_toggle"),
 ]
 urlpatterns += router.urls

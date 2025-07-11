@@ -1,7 +1,13 @@
-from lms.models import Course, Lesson
+from lms.models import Course, Lesson, Subscription
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from lms.validators import validate_url
+
+
+class SubscriptionSerializer(ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = "__all__"
 
 
 class LessonSerializer(ModelSerializer):
@@ -19,6 +25,7 @@ class LessonSerializer(ModelSerializer):
 class CourseSerializer(ModelSerializer):
     lesson_count = serializers.SerializerMethodField()
     lessons = LessonSerializer(many=True, read_only=True)
+    subscriptions = SubscriptionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course
