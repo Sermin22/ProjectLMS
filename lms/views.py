@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from lms.models import Course, Lesson, Subscription
+from lms.paginators import LmsPagination
 from lms.serilizers import CourseSerializer, LessonSerializer
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from django.shortcuts import get_object_or_404
@@ -13,6 +14,7 @@ class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = LmsPagination
 
     # Пользователь, создавший курс становится владельцем этого курса
     def perform_create(self, serializer):
@@ -47,6 +49,7 @@ class LessonListAPIView(ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = LmsPagination
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):

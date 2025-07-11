@@ -7,7 +7,7 @@ from lms.validators import validate_url
 class SubscriptionSerializer(ModelSerializer):
     class Meta:
         model = Subscription
-        fields = "__all__"
+        fields = ("user", "course")
 
 
 class LessonSerializer(ModelSerializer):
