@@ -20,6 +20,13 @@ class CustomUserAdmin(UserAdmin):
         'is_superuser',
         'avatar',
     )
+    # Добавляем новые поля в интерфейс администратора
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (("Personal Info"), {"fields": ("first_name", "last_name", "email", 'phone_number', 'avatar')}),
+        (("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
+        (("Important Dates"), {"fields": ("last_login", "date_joined")}),
+    )
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
 
 
