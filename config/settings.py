@@ -176,6 +176,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CELERY_BEAT_SCHEDULE = {
     "deactivate_inactive_users": {
         "task": "lms.tasks.deactivate_inactive_users",
-        "schedule": timedelta(seconds=30),  # Каждый день days=1, seconds=30
+        "schedule": timedelta(days=1),  # Каждый день
     },
 }

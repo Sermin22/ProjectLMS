@@ -17,7 +17,7 @@ def send_course_update_email(user_id, course_id):
     except (CustomUser.DoesNotExist, Course.DoesNotExist):
         return
 
-    if timezone.now() - course.updated_at >= timedelta(hours=4):  # minutes=1, hours=4
+    if timezone.now() - course.updated_at >= timedelta(hours=4):
         # Отправляем уведомление пользователю
         subject = f'Обновление курса: {course.name}'
         message = f'Курс "{course.name}" был обновлён. Проверьте новые материалы!'
