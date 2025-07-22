@@ -8,6 +8,7 @@ from lms.serilizers import CourseSerializer, LessonSerializer
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from django.shortcuts import get_object_or_404
 from users.permissions import IsNotModer, IsModer, IsOwner
+from lms.tasks import send_course_update_email
 
 
 class CourseViewSet(ModelViewSet):
@@ -19,6 +20,12 @@ class CourseViewSet(ModelViewSet):
     # Пользователь, создавший курс становится владельцем этого курса
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        subscriptions = Subscription.objects.filter(course=course)
+        for sub in subscriptions:
+            send_course_update_email.delay(sub.user.id, course.id)
 
     def get_permissions(self):
         # если создание, право не модератора

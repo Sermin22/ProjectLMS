@@ -24,6 +24,7 @@ class Course(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.name}"
