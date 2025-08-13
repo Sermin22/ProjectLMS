@@ -23,6 +23,19 @@ services:
       redis:
         condition: service_healthy
 
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     image: postgres:16.0
     env_file:
