@@ -13,6 +13,8 @@ RUN pip install poetry && poetry config virtualenvs.create false && poetry insta
 # Копируем остальные файлы проекта в контейнер
 COPY . .
 
+RUN mkdir -p /app/media /app/staticfiles && chmod -R 755 /app
+
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
 
