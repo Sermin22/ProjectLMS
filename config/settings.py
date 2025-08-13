@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_yasg",
     "django_celery_beat",
+    "corsheaders",
 
     "users",
     "lms",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # добавил из документации CORS
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -124,6 +126,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]  # добавил
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # добавил когда ручной деплой с nginx
 
 # Медиатека (Media)
 MEDIA_URL = "media/"  # добавил
@@ -179,3 +182,26 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": timedelta(days=1),  # Каждый день
     },
 }
+
+# Настройка CORS
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://130.193.45.14",
+    "https://130.193.45.14",
+    "https://frontend.example.com",  # Замените на адрес вашего фронтенд-сервера
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://130.193.45.14",
+    "https://130.193.45.14",  # Замените на адрес вашего фронтенд-сервера
+    # и добавьте адрес бэкенд-сервера, перезагрузил сервер
+]
+
+# добавили для автоматического тестирования на GitHab Actions
+if "test" in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        }
+    }
