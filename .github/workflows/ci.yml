@@ -12,7 +12,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Install Poetry
         run: |
@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        run: poetry install --no-interaction --no-ansi
+        run: poetry install --no-interaction
 
       - name: Run Flake8
         run: poetry run flake8 .
@@ -44,9 +44,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
-      - name: Install Poetry (official method)
+      - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV
@@ -60,7 +60,7 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        run: poetry install --no-interaction --no-ansi
+        run: poetry install --no-interaction
 
       - name: Run tests
         run: poetry run python manage.py test
@@ -85,7 +85,7 @@ jobs:
             cd ${{ secrets.DEPLOY_DIR }}
             curl -sSL https://install.python-poetry.org | python3 -
             export PATH="\$HOME/.local/bin:\$PATH"
-            poetry install --no-interaction --no-ansi
+            poetry install --no-interaction
           EOF
 
 #      - name: Apply migrations on server
