@@ -89,8 +89,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}
             curl -sSL https://install.python-poetry.org | python3 -
-            /home/${{ secrets.SSH_USER }}/.local/bin:\$PATH"
-            poetry install --no-interaction --no-root
+            /home/${{ secrets.SSH_USER }}/.local/bin/poetry install --no-interaction
           EOF
 
 #      - name: Apply migrations on server
