@@ -83,14 +83,31 @@ jobs:
       - name: Copy project files to server
         run: |
           rsync -avz --exclude '__pycache__' . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
-
-      - name: Install dependencies on server
+          
+      - name: Restart application
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}
-            curl -sSL https://install.python-poetry.org | python3 -
-            /home/${{ secrets.SSH_USER }}/.local/bin/poetry install --no-interaction
+            sudo systemctl restart ProjectLMS.service
+            docker compose exec -T web poetry run python manage.py migrate --noinput
+            docker compose exec -T web poetry run python manage.py collectstatic --noinput           
           EOF
+
+#      - name: Pull and build Docker images on server
+#        run: |
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+#            cd ${{ secrets.DEPLOY_DIR }}
+#            docker compose pull
+#            docker compose up -d --build --remove-orphans
+#          EOF
+
+#      - name: Install dependencies on server
+#        run: |
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+#            cd ${{ secrets.DEPLOY_DIR }}
+#            curl -sSL https://install.python-poetry.org | python3 -
+#            /home/${{ secrets.SSH_USER }}/.local/bin/poetry install --no-interaction
+#          EOF
 
 #      - name: Apply migrations on server
 #        run: |
@@ -108,20 +125,13 @@ jobs:
 #            poetry run python manage.py collectstatic --noinput
 #          EOF
 
-      - name: Restart application
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            sudo systemctl restart ProjectLMS.service
-          EOF
-
-      - name: Run migrations and collectstatic inside web container
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
-            docker compose exec -T web poetry run python manage.py migrate --noinput
-            docker compose exec -T web poetry run python manage.py collectstatic --noinput
-          EOF
-
+#      - name: Run migrations and collectstatic inside web container
+#        run: |
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+#            cd ${{ secrets.DEPLOY_DIR }}
+#            docker compose exec -T web poetry run python manage.py migrate --noinput
+#            docker compose exec -T web poetry run python manage.py collectstatic --noinput
+#          EOF
 
 #name: Django CI/CD Pipeline
 #
