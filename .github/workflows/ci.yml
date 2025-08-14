@@ -53,13 +53,13 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "export PATH=\"$HOME/.local/bin:$PATH\"" >> $GITHUB_ENV
 
-#      - name: Cache Poetry dependencies
-#        uses: actions/cache@v4
-#        with:
-#          path: ~/.cache/pypoetry
-#          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-poetry-
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
 
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
