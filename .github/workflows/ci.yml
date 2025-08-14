@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        run: poetry install --no-interaction
+        run: poetry install --no-interaction --no-root
 
       - name: Run Flake8
         run: poetry run flake8 .
@@ -60,7 +60,7 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        run: poetry install --no-interaction
+        run: poetry install --no-interaction --no-root
 
       - name: Run tests
         run: poetry run python manage.py test
@@ -85,7 +85,7 @@ jobs:
             cd ${{ secrets.DEPLOY_DIR }}
             curl -sSL https://install.python-poetry.org | python3 -
             export PATH="\$HOME/.local/bin:\$PATH"
-            poetry install --no-interaction
+            poetry install --no-interaction --no-root
           EOF
 
 #      - name: Apply migrations on server
