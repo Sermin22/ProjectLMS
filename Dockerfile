@@ -21,5 +21,5 @@ EXPOSE 8000
 # Определяем команду для запуска приложения
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
-# в DjangoProject
+# в DjangoProject есть, эта команда тут нужна если без docker-compose.yaml, в нем она есть
 # CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
