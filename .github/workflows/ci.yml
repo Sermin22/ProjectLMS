@@ -89,6 +89,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}
             sudo systemctl restart ProjectLMS.service
+            docker compose down --volumes --remove-orphans
             docker-compose pull
             docker-compose build --no-cache web
             docker-compose up -d
