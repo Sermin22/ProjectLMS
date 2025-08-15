@@ -94,7 +94,6 @@ jobs:
             docker-compose up -d
             docker compose exec -T web poetry run python manage.py migrate --noinput
             docker compose exec -T web poetry run python manage.py collectstatic --noinput
-            sudo systemctl restart ProjectLMS.service
           EOF
 
 #      # это автоматизация деплоя если без использования Docker
