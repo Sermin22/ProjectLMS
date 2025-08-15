@@ -476,21 +476,22 @@ sudo nano /etc/systemd/system/ProjectLMS.service
 В файл добавьте следующие настройки:
 ```
 [Unit]
-Description=ProjectLMS (docker compose stack)
+Description=ProjectLMS
 Requires=docker.service
 After=docker.service network.target
 
 [Service]
+Type=simple
 WorkingDirectory=/home/sm-admin/ProjectLMS
 
-Type=oneshot
-RemainAfterExit=yes
 
-ExecStart=/usr/bin/docker compose pull
+ExecStartPre=/usr/bin/docker compose pull
 ExecStart=/usr/bin/docker compose up -d --build --remove-orphans
 
 ExecStop=/usr/bin/docker compose down
 
+Restart=always
+RestartSec=5
 TimeoutStartSec=0
 
 StandardOutput=journal
