@@ -89,9 +89,12 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}
             git pull
-            sudo systemctl restart ProjectLMS.service
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d --build
             docker compose exec -T web poetry run python manage.py migrate --noinput
             docker compose exec -T web poetry run python manage.py collectstatic --noinput
+            sudo systemctl restart ProjectLMS.service
             docker system prune -a -f
           EOF
 
