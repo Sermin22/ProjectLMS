@@ -394,12 +394,12 @@ git --version
 поэтому необходимо использовать рабочую ветку, а соответственно скачать
 проект сразу с переходом в рабочую ветку:
 ```
-git clone -b feature/homework_lesson_35_2 https://github.com/Sermin22/ProjectLMS.git
+git clone -b feature/final_homework https://github.com/Sermin22/ProjectLMS.git
 ```
 Или клонировать и потом переключиться:
 ```
 git clone https://github.com/Sermin22/ProjectLMS.git
-git checkout feature/homework_lesson_35_2
+git checkout feature/final_homework
 ```
 5. Перейдите в репозиторий проекта:
 ```
